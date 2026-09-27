@@ -5,10 +5,14 @@
 PACKAGE		:=	7zfile
 export PROJECT	:=	$(CURDIR)
 
+# TWiLight Hub is built with BlocksDS instead of devkitARM (see hub/README.md).
+# It's only built when BlocksDS is found.
+BLOCKSDS	?= $(firstword $(wildcard /opt/blocksds/core /opt/wonderful/thirdparty/blocksds/core))
+
 #---------------------------------------------------------------------------------
 # Goals for Build
 #---------------------------------------------------------------------------------
-.PHONY: all package booter booter_fc 3dssplash gbapatcher quickmenu manual resources romsel_aktheme romsel_dsimenutheme romsel_r4theme settings slot1launch title
+.PHONY: all package booter booter_fc 3dssplash gbapatcher hub quickmenu manual resources romsel_aktheme romsel_dsimenutheme romsel_r4theme settings slot1launch title
 
 all:	booter booter_fc 3dssplash gbapatcher quickmenu manual resources romsel_aktheme romsel_dsimenutheme romsel_r4theme settings slot1launch title
 
@@ -28,6 +32,11 @@ package:
 	@$(MAKE) -C settings dist
 	@$(MAKE) -C slot1launch dist
 	@$(MAKE) -C title dist
+ifneq ($(strip $(BLOCKSDS)),)
+	@$(MAKE) -C hub dist BLOCKSDS=$(BLOCKSDS)
+else
+	@echo "BlocksDS not found: skipping TWiLight Hub (see hub/README.md)"
+endif
 
 	@rm -rf 7zfile/*/.gitkeep
 	@rm -rf 7zfile/*/*/.gitkeep
@@ -43,6 +52,13 @@ booter_fc:
 
 gbapatcher:
 	@$(MAKE) -C gbapatcher
+
+hub:
+ifneq ($(strip $(BLOCKSDS)),)
+	@$(MAKE) -C hub BLOCKSDS=$(BLOCKSDS)
+else
+	@echo "BlocksDS not found: skipping TWiLight Hub (see hub/README.md)"
+endif
 
 quickmenu:
 	@$(MAKE) -C quickmenu
@@ -93,6 +109,7 @@ clean:
 	@$(MAKE) -C settings clean
 	@$(MAKE) -C slot1launch clean
 	@$(MAKE) -C title clean
+	@rm -rf hub/build hub/hub.nds
 
 	@echo clean package files
 	@rm -rf "$(PACKAGE)/DSi&3DS - SD card users/BOOT.NDS"
@@ -105,6 +122,7 @@ clean:
 	@rm -rf "$(PACKAGE)/_nds/TWiLightMenu/akmenu.srldr"
 	@rm -rf "$(PACKAGE)/_nds/TWiLightMenu/3dssplash.srldr"
 	@rm -rf "$(PACKAGE)/_nds/TWiLightMenu/gbapatcher.srldr"
+	@rm -rf "$(PACKAGE)/_nds/TWiLightMenu/hub.srldr"
 	@rm -rf "$(PACKAGE)/_nds/TWiLightMenu/dsimenu.srldr"
 	@rm -rf "$(PACKAGE)/_nds/TWiLightMenu/main.srldr"
 	@rm -rf "$(PACKAGE)/_nds/TWiLightMenu/mainmenu.srldr"

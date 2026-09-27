@@ -55,7 +55,7 @@ TWLSettings::TWLSettings()
 	showMainMenu = false;
 	showSelectMenu = false;
 	rocketRobzLogo = true;
-	theme = EThemeDSi;
+	theme = ETheme3DS; // Modern look (see 3dsmenu/themes/Modern Dark)
 	settingsMusic = ESMusicTheme;
 	dsiMusic = EMusicTheme;
 	boxArtColorDeband = false;
@@ -101,7 +101,7 @@ TWLSettings::TWLSettings()
 
 	r4_theme = "unused";
 	dsi_theme = "dark";
-	_3ds_theme = "light";
+	_3ds_theme = "Modern Dark"; // falls back to the built-in skin if missing
 
 	gbaBorder = "default.png";
 	unlaunchSettings = false;

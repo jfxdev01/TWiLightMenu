@@ -5,7 +5,23 @@ on:
     types: [created]
 
 jobs:
+  hub:
+    runs-on: ubuntu-latest
+    container: skylyrac/blocksds:dev-v1.24.0
+    name: Build TWiLight Hub with BlocksDS
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v7
+      - name: Build TWiLight Hub
+        run: make -C hub
+      - name: Publish TWiLight Hub
+        uses: actions/upload-artifact@v7
+        with:
+          path: hub/hub.nds
+          name: hub
+
   build:
+    needs: hub
     runs-on: ubuntu-latest
     container: devkitpro/devkitarm:20241104
     name: Build with Docker using devkitARM
@@ -31,6 +47,15 @@ jobs:
           rm pages.7z
       - name: Build TWiLightMenu++
         run: make package
+      - name: Add TWiLight Hub
+        uses: actions/download-artifact@v7
+        with:
+          name: hub
+          path: hub-artifact
+      - name: Copy TWiLight Hub to the package
+        run: |
+          mkdir -p 7zfile/_nds/TWiLightMenu
+          cp hub-artifact/hub.nds 7zfile/_nds/TWiLightMenu/hub.srldr
       - name: Make booter and TWiLightMenu CIAs
         id: make-cias
         run: |

@@ -48,6 +48,11 @@ Once you have devkitPro's toolchains installed you can build the entirety of TWi
 
 Once it finishes building, the output files will be in the `7zfile` folder following the same directory structure as the official `TWiLightMenu.7z` builds.
 
+TWiLight Hub (`hub/`) needs [BlocksDS](https://blocksds.skylyrac.net/). `make package` builds it when BlocksDS is installed and skips it otherwise; it can also be built on its own with Docker:
+```
+docker run --rm -v "$PWD":/work -w /work/hub skylyrac/blocksds:dev-v1.24.0 make dist
+```
+
 ## Using Docker
 
 Using the included [Docker](https://docker.com) image, you can easily compile TWiLight Menu++ without having to manually set up the required version of devkitARM using the provided PowerShell (`.ps1`) scripts.
@@ -71,6 +76,8 @@ TWiLight Menu++ is composed of multiple "sub-projects" which all work together t
 - **booter_fc**: main entrypoint for flashcards
   - Creates `_DS_MENU.dat`, `dsedgei.dat`, `akmenu4.nds`, `_DSMENU.nds`, `SCFW.SC` and others.
 - gbapatcher
+- **hub**: TWiLight Hub — camera, photo album, Wi-Fi (WPA2 on DSi), web browser, weather, clock sync and box art downloader, with a modern UI. Built with [BlocksDS](https://blocksds.skylyrac.net/) instead of devkitARM, see [hub/README.md](hub/README.md)
+  - `/_nds/TWiLightMenu/hub.srldr`
 - **imageview**: image viewer similar to DSi camera (gif, png, bmp) (Part of the Multimedia add-on)
   - `/_nds/TWiLightMenu/imageview.srldr`
 - **manual**: instruction manual for TWiLight Menu++
