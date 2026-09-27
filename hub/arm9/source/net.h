@@ -83,6 +83,9 @@ struct Request {
 	std::string postData;    // non-empty: POST (application/x-www-form-urlencoded)
 	size_t maxBytes = 2 * 1024 * 1024;
 	bool verifyTls = true;
+	// Public, non-sensitive data (weather, box art): if the certificate can't
+	// be verified, try again without verification instead of failing
+	bool allowInsecureFallback = false;
 	std::string outputFile;  // non-empty: write the body to this file
 	ProgressFn progress = nullptr;
 	void *user = nullptr;

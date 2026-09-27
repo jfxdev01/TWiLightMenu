@@ -225,6 +225,7 @@ void boxart() {
 					net::Request req;
 					req.url = "https://art.gametdb.com/ds/coverS/" + region + "/" + g.code + ".png";
 					req.maxBytes = 512 * 1024;
+					req.allowInsecureFallback = true;
 					req.progress = cancelCheck;
 					net::Response res;
 					if (!net::fetch(req, res)) {

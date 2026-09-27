@@ -96,6 +96,7 @@ bool fetchWeather(const std::string &city, Weather &w) {
 	net::Request req;
 	req.url = "https://wttr.in/" + net::urlEncode(city) + "?format=j1&lang=" + (i18n::isPt() ? "pt" : "en");
 	req.maxBytes = 256 * 1024;
+	req.allowInsecureFallback = true;
 	net::Response res;
 	if (!net::fetchWithUi(TR("Weather", "Clima"), req, res)) {
 		ui::message(TR("Weather", "Clima"), res.error);

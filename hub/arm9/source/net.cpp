@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 
@@ -406,7 +407,22 @@ static std::string userCaFile() {
 	return config::hubDir() + "/cacert.pem";
 }
 
-bool fetch(const Request &req, Response &res) {
+// Writes the built-in root certificates to the SD card (once)
+static std::string builtinCaFile() {
+	std::string path = config::hubDir() + "/cacert-builtin.pem";
+	struct stat st;
+	if (stat(path.c_str(), &st) == 0 && (size_t)st.st_size == cacert_bin_size - 1)
+		return path;
+	mkdir(config::hubDir().c_str(), 0777);
+	FILE *f = fopen(path.c_str(), "wb");
+	if (!f)
+		return "";
+	bool ok = fwrite(cacert_bin, 1, cacert_bin_size - 1, f) == cacert_bin_size - 1; // without the NUL
+	fclose(f);
+	return ok ? path : "";
+}
+
+static bool fetchOnce(const Request &req, Response &res) {
 	res = Response();
 	if (!curlReady) {
 		curl_global_init(CURL_GLOBAL_ALL);
@@ -454,7 +470,12 @@ bool fetch(const Request &req, Response &res) {
 			blob.data = (void *)cacert_bin;
 			blob.len = cacert_bin_size;
 			blob.flags = CURL_BLOB_NOCOPY;
-			curl_easy_setopt(curl, CURLOPT_CAINFO_BLOB, &blob);
+			if (curl_easy_setopt(curl, CURLOPT_CAINFO_BLOB, &blob) != CURLE_OK) {
+				// This libcurl can't take certificates from memory: use a file
+				std::string path = builtinCaFile();
+				if (!path.empty())
+					curl_easy_setopt(curl, CURLOPT_CAINFO, path.c_str());
+			}
 		}
 	} else {
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -489,6 +510,16 @@ bool fetch(const Request &req, Response &res) {
 		return false;
 	}
 	return true;
+}
+
+bool fetch(const Request &req, Response &res) {
+	bool ok = fetchOnce(req, res);
+	if (!ok && res.certError && req.verifyTls && req.allowInsecureFallback) {
+		Request insecure = req;
+		insecure.verifyTls = false;
+		ok = fetchOnce(insecure, res);
+	}
+	return ok;
 }
 
 struct UiProgress {

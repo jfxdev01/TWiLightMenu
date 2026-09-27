@@ -100,32 +100,50 @@ std::string wrap(const std::string &text, int width) {
 	return out;
 }
 
-int countLines(const std::string &s) {
-	int n = 1;
-	for (char c : s)
-		if (c == '\n')
-			n++;
-	return n;
-}
-
-// Shows a title, a text and a list of choices on the bottom screen.
+// Shows a title, a text and a list of choices. The text starts in the
+// description area of the top screen and continues on the bottom screen.
 // Returns the chosen index, or -1 if B was pressed.
 int installScreen(const std::string &title, const std::string &body, const std::vector<std::string> &options, int cursor = 0) {
 	const bool rtl = ms().rtl();
 	const int x = rtl ? 256 - 4 : 4;
 	const Alignment align = rtl ? Alignment::right : Alignment::left;
-	const std::string text = wrap(body, 244);
-	int optionsY = 26 + countLines(text) * smallFontHeight() + 6;
-	int maxY = 190 - (int)options.size() * 15;
+	const int lineH = smallFontHeight();
+
+	// Split the wrapped text between both screens
+	std::string wrapped = wrap(body, 244);
+	std::vector<std::string> lines;
+	size_t pos = 0;
+	while (true) {
+		size_t nl = wrapped.find('\n', pos);
+		lines.push_back(wrapped.substr(pos, nl == std::string::npos ? std::string::npos : nl - pos));
+		if (nl == std::string::npos)
+			break;
+		pos = nl + 1;
+	}
+	const size_t kTopLines = 6;
+	std::string topText, bottomText;
+	for (size_t i = 0; i < lines.size(); i++) {
+		std::string &dst = i < kTopLines ? topText : bottomText;
+		if (!dst.empty())
+			dst += "\n";
+		dst += lines[i];
+	}
+	int bottomLines = lines.size() > kTopLines ? (int)(lines.size() - kTopLines) : 0;
+	int optionsY = 28 + bottomLines * lineH + (bottomLines ? 6 : 0);
+	int maxY = 188 - (int)options.size() * 15;
 	if (optionsY > maxY)
 		optionsY = maxY;
+	if (optionsY < 30)
+		optionsY = 30;
 
 	bool refresh = true;
 	while (1) {
 		if (refresh) {
 			clearText();
+			printSmall(true, 0, 138 - calcSmallFontHeight(topText) / 2, topText, Alignment::center);
 			printLarge(false, x, 0, title, align);
-			printSmall(false, x, 24, text, align);
+			if (!bottomText.empty())
+				printSmall(false, x, 26, bottomText, align);
 			for (size_t i = 0; i < options.size(); i++) {
 				bool sel = (int)i == cursor;
 				printSmall(false, rtl ? 256 - 16 : 16, optionsY + i * 15, options[i], align,

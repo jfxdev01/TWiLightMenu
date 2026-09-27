@@ -5,7 +5,7 @@
 # devkitARM: it needs the DSi-mode WiFi driver (WPA2), the DSi camera driver
 # and Mbed TLS/libcurl, which are only available in BlocksDS.
 #
-#   docker run --rm -v "$PWD":/work -w /work/hub skylyrac/blocksds:dev-latest make dist
+#   docker run --rm -v "$PWD":/work -w /work/hub skylyrac/blocksds:dev-v1.24.0 make dist
 #
 # Packages needed on a native install:
 #   wf-pacman -Sy blocksds-toolchain blocksds-mbedtls blocksds-libcurl toolchain-gcc-arm-none-eabi-zlib

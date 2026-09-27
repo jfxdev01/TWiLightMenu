@@ -33,7 +33,7 @@ Unlike the rest of TWiLight Menu++, the Hub is built with
 
 ```sh
 # From the repository root
-docker run --rm -v "$PWD":/work -w /work/hub skylyrac/blocksds:dev-latest make dist
+docker run --rm -v "$PWD":/work -w /work/hub skylyrac/blocksds:dev-v1.24.0 make dist
 ```
 
 or, with BlocksDS installed natively:
