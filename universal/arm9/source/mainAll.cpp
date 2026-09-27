@@ -45,7 +45,14 @@ static void stop(void) {
 
 static int screenMode = CURRENT_SCREEN_MODE;
 
+// Command line of the .srldr, for the screens that take arguments
+int twlArgc = 0;
+char **twlArgv = NULL;
+
 int main(int argc, char **argv) {
+	twlArgc = argc;
+	twlArgv = argv;
+
 	// overwrite reboot stub identifier
 	/*extern char *fake_heap_end;
 	*fake_heap_end = 0;*/

@@ -30,6 +30,7 @@
 #include "language.h"
 #include "gbarunner2settings.h"
 #include "twlFlashcard.h"
+#include "installManager.h"
 
 #include "soundeffect.h"
 #include "common/systemdetails.h"
@@ -1695,22 +1696,50 @@ int settingsMode(void)
 			.option(STR_SET_LUMA_AUTOBOOT, STR_DESCRIPTION_SET_LUMA_AUTOBOOT, Option::Nul(opt_set_luma_autoboot), {STR_PRESS_A}, {0});
 	}
 
+	SettingsPage installPage(STR_INSTALLATION_SETTINGS);
+	installPage
+		.option(STR_INSTALL_STATUS, STR_DESCRIPTION_INSTALL_STATUS, Option::Nul(opt_install_status), {STR_PRESS_A}, {0})
+		.option(STR_MAKE_PERMANENT, STR_DESCRIPTION_MAKE_PERMANENT, Option::Nul(opt_install_permanent), {STR_PRESS_A}, {0})
+		.option(STR_RESTORE_ORIGINAL, STR_DESCRIPTION_RESTORE_ORIGINAL, Option::Nul(opt_install_restore), {STR_PRESS_A}, {0});
+	if (installSettingsBackupFound()) {
+		installPage.option(STR_RESTORE_SETTINGS_BACKUP, STR_DESCRIPTION_RESTORE_SETTINGS_BACKUP, Option::Nul(opt_install_restore_backup), {STR_PRESS_A}, {0});
+	}
+	if (installHubFound()) {
+		installPage.option(STR_OPEN_HUB, STR_DESCRIPTION_OPEN_HUB, Option::Nul(opt_open_hub), {STR_PRESS_A}, {0});
+	}
+
 	/*SettingsPage twlfirmPage(STR_TWLFIRM_SETTINGS);
 	if (isDSiMode() && ms().consoleModel >= 2) {
 		twlfirmPage
 			.option(STR_SCREENSCALESIZE, STR_DESCRIPTION_SCREENSCALESIZE, Option::Int(&ms().screenScaleSize, opt_twlFirm_changed), {"1x/1.25x", "1.5x"}, {0, 1});
 	}*/
 	
+	int pageCount = 2;
 	gui()
 		.addPage(guiPage)
 		.addPage(bootstrapPage);
-	if (!gbaR3Found)
+	if (!gbaR3Found) {
 		gui().addPage(gbar2Page);
-	if (dsiFeatures() && ms().consoleModel == 0 && ms().unlaunchSettings)
+		pageCount++;
+	}
+	if (dsiFeatures() && ms().consoleModel == 0 && ms().unlaunchSettings) {
 		gui().addPage(unlaunchPage);
-	if (gamesPageVisible)
+		pageCount++;
+	}
+	if (gamesPageVisible) {
 		gui().addPage(gamesPage);
+		pageCount++;
+	}
 	gui().addPage(miscPage);
+	pageCount++;
+	gui().addPage(installPage);
+
+	// Opened from TWiLight Hub's "Installation" button
+	extern int twlArgc;
+	extern char **twlArgv;
+	if (twlArgc > 1 && twlArgv[1] && strcmp(twlArgv[1], "install") == 0) {
+		gui().selectPage(pageCount);
+	}
 
 	/*if (isDSiMode() && ms().consoleModel >= 2) {
 		gui().addPage(twlfirmPage);

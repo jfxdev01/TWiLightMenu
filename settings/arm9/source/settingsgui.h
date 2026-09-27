@@ -178,6 +178,16 @@ public:
   }
 
   /**
+   * Selects the page shown first by show().
+   */
+  SettingsGUI &selectPage(int index)
+  {
+    if (index >= 0 && index < (int)_pages.size())
+      _selectedPage = index;
+    return *this;
+  }
+
+  /**
    * Sets the callback to be called when the 
    * settings GUI exits.
    * 
