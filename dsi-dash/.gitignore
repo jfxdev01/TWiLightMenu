@@ -1,0 +1,11 @@
+# artefatos de build
+build/
+*.elf
+*.nds
+*.o
+*.d
+*.map
+
+# o .gitignore da raiz ignora data/, mas os binarios gerados em arm9/data
+# (fontes, icones, texturas da corrida) sao necessarios para compilar
+!arm9/data/

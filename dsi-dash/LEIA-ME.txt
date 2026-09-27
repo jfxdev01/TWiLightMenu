@@ -1,0 +1,126 @@
+DSI DASH v2.1 + TWILIGHT MENU++ — PACOTE SD PARA NINTENDO DSi
+================================================================
+
+O DSi Dash é um launcher para o DSi no estilo da tela inicial do Nintendo Switch,
+com apps que deixam o Wi-Fi útil em 2026: navegador com HTTPS e imagens,
+notícias, Wikipédia, mapas, tradutor, clima, transferência de arquivos pelo
+PC/celular, câmera com leitor de QR code, álbum, notas, calculadora,
+gerenciador de arquivos e um jogo de corrida em 3D.
+
+
+CONTEÚDO DESTE PACOTE (copie TUDO para a raiz do cartão SD)
+-----------------------------------------------------------
+dsidash.nds    -> DSi Dash (também em roms/ e roms/dsi/)
+BOOT.NDS       -> TWiLight Menu++ (v27.24.1): abre jogos DS/DSi/GBA
+_nds/          -> arquivos do TWiLight (e do DSi Dash, em _nds/dsidash/)
+title/         -> DSiWare do TWiLight para hiyaCFW/Unlaunch (opcional)
+roms/nds/      -> seus jogos .nds
+roms/dsi/      -> seus jogos .dsi/DSiWare
+roms/gba/      -> ROMs GBA (GBARunner2)
+ntrboot.nds    -> utilitário ntrboot (não usar sem guia)
+
+
+INSTALAÇÃO (console já com Unlaunch)
+------------------------------------
+1. Copie o conteúdo deste pacote para a raiz do cartão SD.
+2. Ligue segurando A+B para abrir o menu do Unlaunch.
+3. Escolha como abrir o DSi Dash:
+
+   a) COMO TELA INICIAL (recomendado): no Unlaunch, em "Options", defina
+      "NO BUTTON" = dsidash.nds. O DSi liga direto no DSi Dash; o bloco
+      "Jogos" (ou Energia > Voltar ao TWiLight) reinicia no TWiLight Menu++.
+
+   b) PELO TWILIGHT: deixe BOOT.NDS como padrão, abra roms/dsidash.nds e, nas
+      configurações do jogo (segure A no ícone), ligue "Run in: DSi mode".
+      Sair do DSi Dash (Energia > Voltar ao TWiLight) volta para o TWiLight.
+
+   IMPORTANTE: as câmeras, o WPA/WPA2 e os 16 MB de RAM só existem no MODO DSi.
+
+
+APPS
+----
+Tela de baixo = toque/controle. Tela de cima = informação.
+Botões: A abre, B volta, setas navegam, L/R pulam. As dicas de botão na barra
+de baixo também podem ser tocadas.
+
+- Clima: agora, 24 horas (gráfico) e 7 dias. Cidade pelo IP ou escolhida nas
+  Configurações. O relógio é acertado pela internet (mesmo com o RTC errado).
+- Navegador: modo leitura (texto, links, formulários), HTTP e HTTPS (TLS 1.2
+  com as autoridades certificadoras da Mozilla). A página corre pelas duas
+  telas. ←/→ escolhem links, A abre, B volta, X digita endereço/busca,
+  Y adiciona aos favoritos. Mostra as fotos das páginas (dá para desligar nas
+  Configurações). Arquivos baixados podem ser salvos em Downloads/.
+  Não roda JavaScript nem CSS (limites de 16 MB de RAM e CPU de 133 MHz).
+- Notícias: feeds RSS (BBC Brasil, G1, Folha, UOL, Nintendo Life, Hacker News,
+  The Verge e um feed seu). L/R troca a fonte, A abre a matéria.
+- Wikipédia: busca, resumo na tela de cima e artigo completo. Y = aleatório.
+- Mapas: OpenStreetMap nas duas telas, começando na sua localização. Arraste
+  para mover, L/R ou +/- para zoom (toque duplo aproxima), X procura um lugar.
+- Tradutor: português, inglês, espanhol, francês, alemão, italiano,
+  holandês e latim (serviço MyMemory).
+- Câmera (modo DSi): fotos 640x480 salvas em JPG em DCIM/100DSIDA/. Y liga o
+  leitor de QR code: links abrem no navegador, QR de Wi-Fi conecta na rede,
+  texto vai para Notas.
+- Álbum: fotos de DCIM/ e Downloads/ (JPG, PNG, GIF, BMP). Y apaga.
+- Transferir: o DSi vira um servidor. No PC/celular na mesma rede, abra o
+  endereço mostrado (ou leia o QR code) para enviar e baixar arquivos do SD,
+  criar pastas e apagar. Ótimo para colocar jogos e homebrew no cartão.
+- Arquivos: navegue pelo SD, veja imagens e textos, renomeie, apague e abra
+  apps .nds (reinicia pelo Unlaunch, modo DSi).
+- Corrida (DSi Dash Racing): corrida 3D contra 5 carros no Circuito Maceió
+  (orla, farol, arquibancadas e cidade). No menu escolha voltas (1 a 9),
+  dificuldade, cor do carro e câmera.
+    A acelera, B freia/ré, setas esterçam
+    R ou L + direção numa curva = drift; solte R/L para o mini-turbo
+      (faísca azul = turbo curto, laranja = turbo longo)
+    setas amarelas na pista = turbo
+    largada perfeita: aperte A logo antes do "VAI!"
+    X troca a câmera (perseguição, distante, capô), START pausa
+    SELECT liga/desliga o piloto automático (demonstração; não vale recorde)
+  A tela de baixo mostra o mapa com os carros, tempos e velocímetro.
+  O recorde de volta fica salvo no cartão.
+- Notas e Calculadora.
+- Jogos: abre o TWiLight Menu++.
+- Botões redondos: Wi-Fi (procurar redes e conectar com senha), tema
+  claro/escuro, Configurações (brilho, hora, sons, cidade, feeds…) e Energia.
+
+
+WI-FI
+-----
+O DSi Dash usa as conexões salvas nas Configurações do console. Também dá para
+procurar redes e conectar digitando a senha no app Wi-Fi (a rede fica salva
+no cartão e reconecta sozinha no próximo boot).
+- Modo DS: só redes abertas ou WEP.
+- Modo DSi: aberta, WEP, WPA e WPA2.
+
+
+LIMITAÇÕES
+----------
+- Wi-Fi 802.11b/g 2,4 GHz: na prática ~1 a 2 Mbps.
+- HTTPS só até TLS 1.2 (sites que exigem TLS 1.3 não abrem). A primeira
+  conexão segura a um site leva alguns segundos (criptografia no ARM9).
+- O navegador mostra o conteúdo das páginas, não o layout visual.
+
+
+DADOS DO DSI DASH NO CARTÃO
+---------------------------
+_nds/dsidash/settings.ini   configurações
+_nds/dsidash/bookmarks.txt  favoritos do navegador
+_nds/dsidash/wifi.txt       rede conectada pelo app Wi-Fi (contém a senha)
+_nds/dsidash/notas/         notas
+_nds/dsidash/weather.bin    último clima (mostrado sem internet)
+_nds/dsidash/corrida.ini    recorde de volta e opções da Corrida
+DCIM/100DSIDA/              fotos
+Downloads/                  arquivos baixados
+
+
+SE O CONSOLE AINDA NÃO FOI MODIFICADO
+-------------------------------------
+Siga https://dsi.cfw.guide (Memory Pit -> Unlaunch). Faça backup da NAND
+com o GodMode9i antes.
+
+
+COMPILAR DO CÓDIGO-FONTE
+------------------------
+C:\Projetos\nintendo\dsi-dash\build.sh (Git Bash). Precisa do devkitPro em
+C:\Users\Jota\msys64 (pacman -S nds-dev). Veja dsi-dash\README.md.

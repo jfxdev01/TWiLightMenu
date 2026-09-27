@@ -1,0 +1,104 @@
+// gerado por tools/gen_assets.py — nao editar
+#pragma once
+
+// fontes
+#define FONT_SMALL 0
+#define FONT_BODY 1
+#define FONT_TITLE 2
+#define FONT_BIG 3
+#define FONT_HUGE 4
+#define FONT_TEXT 5
+#define FONT_TEXTB 6
+#define FONT_H1 7
+#define FONT_H2 8
+#define FONT_COUNT 9
+
+// codepoints extras (slots 224+)
+static const unsigned short g_fontExtraCps[] = {0x2022, 0x2026, 0x201C, 0x201D, 0x2018, 0x2019, 0x2013, 0x2014, 0x20AC, 0x2122, 0x2190, 0x2191, 0x2192, 0x2193, 0x2264, 0x2265};
+#define FONT_EXTRA_COUNT 16
+
+// icones (mascaras alfa)
+#define IC_WEATHER_40 0
+#define IC_WEATHER_20 1
+#define IC_BROWSER_40 2
+#define IC_BROWSER_20 3
+#define IC_CAMERA_40 4
+#define IC_CAMERA_20 5
+#define IC_ALBUM_40 6
+#define IC_ALBUM_20 7
+#define IC_NEWS_40 8
+#define IC_NEWS_20 9
+#define IC_TRANSFER_40 10
+#define IC_TRANSFER_20 11
+#define IC_FILES_40 12
+#define IC_FILES_20 13
+#define IC_FILES_14 14
+#define IC_GAMES_40 15
+#define IC_GAMES_20 16
+#define IC_WIKI_40 17
+#define IC_WIKI_20 18
+#define IC_SETTINGS_40 19
+#define IC_SETTINGS_20 20
+#define IC_WIFI_40 21
+#define IC_WIFI_20 22
+#define IC_POWER_20 23
+#define IC_INFO_20 24
+#define IC_THEME_20 25
+#define IC_NOTES_40 26
+#define IC_NOTES_20 27
+#define IC_CALC_40 28
+#define IC_CALC_20 29
+#define IC_CLOCK_40 30
+#define IC_CLOCK_20 31
+#define IC_RADIO_40 32
+#define IC_RADIO_20 33
+#define IC_BACK_20 34
+#define IC_BACK_14 35
+#define IC_FWD_20 36
+#define IC_FWD_14 37
+#define IC_SEARCH_20 38
+#define IC_SEARCH_14 39
+#define IC_STAR_20 40
+#define IC_STAR_14 41
+#define IC_REFRESH_20 42
+#define IC_REFRESH_14 43
+#define IC_HOME_20 44
+#define IC_HOME_14 45
+#define IC_CLOSE_20 46
+#define IC_CLOSE_14 47
+#define IC_CHECK_20 48
+#define IC_CHECK_14 49
+#define IC_BKSP_20 50
+#define IC_SHIFT_20 51
+#define IC_FILE_14 52
+#define IC_IMAGE_14 53
+#define IC_LOCK_14 54
+#define IC_SHUTTER_40 55
+#define IC_SWAPCAM_20 56
+#define IC_QR_20 57
+#define IC_TRASH_20 58
+#define IC_MAP_40 59
+#define IC_MAP_20 60
+#define IC_RACE_40 61
+#define IC_RACE_20 62
+#define IC_TRANSLATE_40 63
+#define IC_TRANSLATE_20 64
+#define IC_PIN_20 65
+#define IC_PLUS_20 66
+#define IC_MINUS_20 67
+#define IC_TARGET_20 68
+#define IC_WX_SUN_48 69
+#define IC_WX_SUN_24 70
+#define IC_WX_CLOUD_48 71
+#define IC_WX_CLOUD_24 72
+#define IC_WX_RAIN_48 73
+#define IC_WX_RAIN_24 74
+#define IC_WX_SNOW_48 75
+#define IC_WX_SNOW_24 76
+#define IC_WX_BOLT_48 77
+#define IC_WX_BOLT_24 78
+#define IC_WX_FOG_48 79
+#define IC_WX_FOG_24 80
+#define IC_WX_MOON_48 81
+#define IC_WX_MOON_24 82
+#define IC_COUNT 83
