@@ -2215,6 +2215,24 @@ int dsClassicMenu(void) {
 				loadROMselect();
 			}
 
+			// Y: TWiLight Hub (camera, Wi-Fi, web browser and other utilities)
+			const char *hubPath = sys().isRunFromSD() ? "sd:/_nds/TWiLightMenu/hub.srldr" : "fat:/_nds/TWiLightMenu/hub.srldr";
+			if ((pressed & KEY_Y) && access(hubPath, F_OK) == 0) {
+				mmEffectEx(&snd_launch);
+				fadeSpeed = true;
+				fadeType = false;	// Fade to white
+				while (!screenFadedOut()) {
+					swiWaitForVBlank();
+				}
+				ms().saveSettings();
+				// argv[1] tells the Hub to come back to this menu
+				vector<const char *> hubArgs;
+				hubArgs.push_back(hubPath);
+				hubArgs.push_back(sys().isRunFromSD() ? "sd:/_nds/TWiLightMenu/mainmenu.srldr" : "fat:/_nds/TWiLightMenu/mainmenu.srldr");
+				runNdsFile(hubArgs[0], hubArgs.size(), &hubArgs[0], sys().isRunFromSD(), true, false, false, true, true, false, -1, sys().commonCache());
+				fadeType = true;
+			}
+
 			if ((pressed & KEY_X) && !sys().isRegularDS()) {
 				mmEffectEx(&snd_back);
 				fadeSpeed = true;

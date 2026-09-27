@@ -767,6 +767,33 @@ void launchSettings(void) {
 	stop();
 }
 
+static bool hubFound(void) {
+	return access(sys().isRunFromSD() ? "sd:/_nds/TWiLightMenu/hub.srldr" : "fat:/_nds/TWiLightMenu/hub.srldr", F_OK) == 0;
+}
+
+// TWiLight Hub: camera, Wi-Fi, web browser and other utilities
+void launchHub(void) {
+	snd().playLaunch();
+	controlTopBright = true;
+
+	fadeType = false;		  // Fade to white
+	snd().fadeOutStream();
+	for (int i = 0; i < 60; i++) {
+		bgOperations(true);
+	}
+	snd().stopStream();
+	ms().saveSettings();
+	// argv[1] tells the Hub which menu to go back to
+	argarray.push_back((char*)(sys().isRunFromSD() ? "sd:/_nds/TWiLightMenu/hub.srldr" : "fat:/_nds/TWiLightMenu/hub.srldr"));
+	argarray.push_back((char*)(sys().isRunFromSD() ? "sd:/_nds/TWiLightMenu/dsimenu.srldr" : "fat:/_nds/TWiLightMenu/dsimenu.srldr"));
+	int err = runNdsFile(argarray[0], argarray.size(), (const char**)&argarray[0], sys().isRunFromSD(), true, false, false, true, true, false, -1, sys().commonCache());
+	char text[32];
+	snprintf(text, sizeof(text), STR_START_FAILED_ERROR.c_str(), err);
+	fadeType = true;
+	printLarge(false, 4, 4, text);
+	stop();
+}
+
 extern void writeSoftResetId(void);
 
 extern char pictochatPath[256];
@@ -2661,7 +2688,7 @@ bool selectMenu(void) {
 	resumeRotatingCubesVideo();
 	int maxCursors = 0;
 	int selCursorPosition = 0;
-	int assignedOp[5] = {-1};
+	int assignedOp[6] = {-1, -1, -1, -1, -1, -1};
 	int selIconYpos = 96;
 	if (ms().kioskMode) {
 		if (dsiFeatures() && (bothSDandFlashcard() || !flashcardFound())) {
@@ -2728,6 +2755,11 @@ bool selectMenu(void) {
 			}
 		}
 	}
+	if (hubFound()) {
+		maxCursors++;
+		assignedOp[maxCursors] = 5;
+		selIconYpos -= 14;
+	}
 	if (ms().theme == TWLSettings::EThemeSaturn) {
 		while (!screenFadedIn()) { bgOperations(true); }
 		dbox_selectMenu = true;
@@ -2762,6 +2794,8 @@ bool selectMenu(void) {
 				printSmall(false, textXpos, textYpos, "Start GBA Mode", align, pal);
 			} else if (assignedOp[i] == 4) {
 				printSmall(false, textXpos, textYpos, STR_OPEN_MANUAL, align, pal);
+			} else if (assignedOp[i] == 5) {
+				printSmall(false, textXpos, textYpos, STR_OPEN_TWILIGHT_HUB, align, pal);
 			}
 			textYpos += 28;
 		}
@@ -2811,6 +2845,9 @@ bool selectMenu(void) {
 				break;
 			case 4:
 				launchManual();
+				break;
+			case 5:
+				launchHub();
 				break;
 			}
 		}
